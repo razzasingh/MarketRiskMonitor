@@ -30,9 +30,14 @@ jobs:
       - name: Create outputs folder
         run: mkdir -p outputs
 
+      - name: Install ipykernel and register kernel
+        run: |
+          pip install ipykernel
+          python -m ipykernel install --user --name python3 --display-name "Python 3"
+
       - name: Run notebook
         run: |
-          jupyter nbconvert --to notebook --execute "Market Risk Monitor.ipynb" --inplace
+          jupyter nbconvert --to notebook --execute "Market Risk Monitor.ipynb" --inplace --ExecutePreprocessor.kernel_name=python3
 
       - name: Get today's date
         id: date
