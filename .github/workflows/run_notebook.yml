@@ -39,6 +39,16 @@ jobs:
         run: |
           jupyter nbconvert --to notebook --execute "Market Risk Monitor.ipynb" --inplace --ExecutePreprocessor.kernel_name=python3
 
+      - name: Debug - show generated files
+        run: |
+          echo "=== Root directory ==="
+          ls -la
+          echo "=== Outputs folder ==="
+          ls -la outputs/ || echo "outputs/ does not exist"
+          echo "=== Data folder ==="
+          ls -la data/ || echo "data/ does not exist"
+          find . -name "*.html" 2>/dev/null || echo "No HTML files found"
+          
       - name: Get today's date
         id: date
         run: echo "DATE=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
