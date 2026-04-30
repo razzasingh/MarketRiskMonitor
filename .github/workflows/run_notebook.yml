@@ -1,0 +1,47 @@
+name: Run Market Risk Monitor
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 8 * * 1-5'  # Every weekday at 8am UTC
+  workflow_dispatch:         # Allows manual trigger from GitHub UI
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install jupyter nbconvert pandas numpy matplotlib yfinance
+
+      - name: Create outputs folder
+        run: mkdir -p outputs
+
+      - name: Run notebook
+        run: |
+          jupyter nbconvert --to notebook --execute "Market Risk Monitor.ipynb" --inplace
+
+      - name: Get today's date
+        id: date
+        run: echo "DATE=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+
+      - name: Convert latest HTML output for Pages
+        run: |
+          # Copy today's report to a fixed filename so the URL never changes
+          cp "outputs/MarketRiskStressReport_${{ steps.date.outputs.DATE }}.html" outputs/index.html
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./outputs
