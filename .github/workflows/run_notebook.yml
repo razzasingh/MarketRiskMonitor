@@ -35,6 +35,12 @@ jobs:
           pip install ipykernel
           python -m ipykernel install --user --name python3 --display-name "Python 3"
 
+      - name: Debug - show generated files
+        run: |
+          find . -name "*.html" 2>/dev/null || echo "No HTML files found"
+          find . -name "*.csv" 2>/dev/null || echo "No CSV files found"
+          ls -la outputs/ || echo "outputs/ does not exist"
+
       - name: Run notebook
         run: |
           jupyter nbconvert --to notebook --execute "Market Risk Monitor.ipynb" --inplace --ExecutePreprocessor.kernel_name=python3
