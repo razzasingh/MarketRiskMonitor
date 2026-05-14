@@ -5,7 +5,7 @@ on:
     branches: [main]
   schedule:
     - cron: '0 8 * * 1-5'  # Every weekday at 8am UTC
-  workflow_dispatch:         # Allows manual trigger from GitHub UI
+  workflow_dispatch:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -25,44 +25,42 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install jupyter nbconvert pandas numpy matplotlib yfinance
+          pip install jupyter nbconvert pandas numpy matplotlib yfinance ipykernel
 
       - name: Create outputs folder
         run: mkdir -p outputs
 
-      - name: Install ipykernel and register kernel
+      - name: Register kernel
         run: |
-          pip install ipykernel
           python -m ipykernel install --user --name python3 --display-name "Python 3"
-
-      - name: Debug - show generated files
-        run: |
-          find . -name "*.html" 2>/dev/null || echo "No HTML files found"
-          find . -name "*.csv" 2>/dev/null || echo "No CSV files found"
-          ls -la outputs/ || echo "outputs/ does not exist"
 
       - name: Run notebook
         run: |
-          jupyter nbconvert --to notebook --execute "Market Risk Monitor.ipynb" --inplace --ExecutePreprocessor.kernel_name=python3
+          jupyter nbconvert \
+            --to notebook \
+            --execute "Market Risk Monitor.ipynb" \
+            --inplace \
+            --ExecutePreprocessor.kernel_name=python3
 
-      - name: Debug - show generated files
+      - name: Debug generated files
         run: |
           echo "=== Root directory ==="
           ls -la
-          echo "=== Outputs folder ==="
-          ls -la outputs/ || echo "outputs/ does not exist"
-          echo "=== Data folder ==="
-          ls -la data/ || echo "data/ does not exist"
-          find . -name "*.html" 2>/dev/null || echo "No HTML files found"
-          
-      - name: Get today's date
-        id: date
-        run: echo "DATE=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
 
-      - name: Convert latest HTML output for Pages
+          echo "=== Outputs folder ==="
+          ls -la outputs/ || echo "outputs folder missing"
+
+          echo "=== HTML files ==="
+          find . -name "*.html"
+
+      - name: Copy latest report to index.html
         run: |
-          # Copy today's report to a fixed filename so the URL never changes
-          cp "outputs/MarketRiskStressReport_${{ steps.date.outputs.DATE }}.html" outputs/index.html
+          REPORT=$(ls outputs/MarketRiskStressReport_*.html | head -n 1)
+
+          echo "Found report:"
+          echo "$REPORT"
+
+          cp "$REPORT" outputs/index.html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
