@@ -1,6 +1,6 @@
 # Market Risk Monitor
 
-An automated market risk reporting system that produces a daily, self-contained HTML stress report for a multi-desk trading book (Rates, FX, Credit). The report is generated every weekday at 08:00 UTC.
+An automated market risk reporting system that produces a daily, self-contained HTML stress report for a multi-desk trading book (Rates, FX, Credit). The report is generated every Monday at 07:00 UTC.
 
 **[View latest report →](https://razzasingh.github.io/MarketRiskMonitor)** 
 
