@@ -22,7 +22,7 @@ The notebook pulls live market data via Yahoo Finance and runs a full risk pipel
 - **Data quality checks** — missing data, stale prices, extreme return detection per ticker
 - **RNIM register** — Risks Not In Model governance log with live signals where modelled (liquidity gap, correlation breakdown, JTD, proxy/basis risk)
 
-The output is a single self-contained HTML file with embedded charts and styled tables — no external dependencies to view it.
+The output is a single self-contained HTML file with embedded charts and styled tables. No external dependencies to view it.
 
 ---
 
