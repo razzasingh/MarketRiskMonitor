@@ -38,7 +38,7 @@ jobs:
         run: |
           jupyter nbconvert \
             --to notebook \
-            --execute "Market Risk Monitor V3.ipynb" \
+            --execute "Market Risk Monitor V4.ipynb" \
             --inplace \
             --ExecutePreprocessor.kernel_name=python3
 
