@@ -19,7 +19,7 @@ The notebook pulls live market data via Yahoo Finance and runs a full risk pipel
 - **Backtesting & validation** — rolling 250-day exception count, Kupiec p-value, VaR limit utilisation, all RAG-rated (GREEN/AMBER/RED)
 - **Data quality checks** — missing data, stale prices, extreme return detection per ticker
 - **RNIM register** — Risks Not In Model governance log with live signals where modelled (liquidity gap, correlation breakdown, JTD, proxy/basis risk)
-- **Non-financial risk module** — RCSA table for risks specific to the model and its operation (data feed failure, stale price data, model/methodology error, broken correlation assumptions, manual override risk, calibration drift), plus a KRI dashboard with RAG status reframed entirely from existing model outputs (VaR utilisation, backtesting exceptions, data quality failures, RNIM add-ons flagged, stress buffer) — no additional risk calculations
+- **Non-financial risk module** — RCSA table for risks specific to the model and its operation (data feed failure, stale price data, model/methodology error, broken correlation assumptions, manual override risk, calibration drift), plus a KRI dashboard with RAG status reframed entirely from existing model outputs (VaR utilisation, backtesting exceptions, data quality failures, RNIM add-ons flagged, stress buffer)
 
 The output is a single self-contained HTML file with embedded charts and styled tables. No external dependencies to view it.
 
